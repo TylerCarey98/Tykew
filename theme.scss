@@ -1,0 +1,89 @@
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: black;
+  overflow: hidden; // no scrollbars.. 
+}
+
+#main{
+
+}
+
+.wrap {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  width: 0; 
+  height: 0; 
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  animation: rotate 14s infinite linear;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotateY(360deg) rotateX(360deg);
+  }
+}
+
+.c {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  opacity: 0; 
+}
+
+@for $i from 1 through 300 {
+  $z: (random(360) * 1deg); // random angle to rotateZ
+  $y: (random(360) * 1deg); // random to rotateX
+  $hue: ((40/300 * $i) + 0); // set hue
+  
+  .c:nth-child(#{$i}){ // grab the nth particle
+    animation: orbit#{$i} 14s infinite;
+    animation-delay: ($i * .01s); 
+    background-color: hsla($hue, 100%, 50%, 1);
+  }
+
+  @keyframes orbit#{$i}{ 
+    20% {
+      opacity: 1; // fade in
+    }
+    30% {
+      transform: rotateZ(-$z) rotateY($y) translateX(100px) rotateZ($z); // form orb
+    }
+    80% {
+      transform: rotateZ(-$z) rotateY($y) translateX(100px) rotateZ($z); // hold orb state 30-80
+      opacity: 1; // hold opacity 20-80
+    }
+    100% {
+       transform: rotateZ(-$z) rotateY($y) translateX( (100px * 3) ) rotateZ($z); // translateX * 3
+    }
+  }
+}
+
+.topnav{
+    background-color: black;
+}
+
+.topnav a {
+    float: right;
+    color: grey;
+    text-align: center;
+    padding: 20px 25px;
+    text-decoration: none;
+    font-size: 23px;
+}
+
+.topnav a:hover {
+    background-color: grey;
+    color: white;
+}
+
+.topnav a.active {
+    background-color: red;
+    color: white;
+}
